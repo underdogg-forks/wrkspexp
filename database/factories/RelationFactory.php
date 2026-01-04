@@ -14,7 +14,7 @@ class RelationFactory extends Factory
         $companyName = fake()->company();
 
         return [
-            'name' => $companyName
+            'name' => $companyName,
             'slug' => Str::slug($companyName),
         ];
     }

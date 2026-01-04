@@ -19,6 +19,13 @@ return new class extends Migration
             $table->decimal('subtotal', 10, 2)->default(0);
             $table->decimal('tax', 10, 2)->default(0);
             $table->decimal('total', 10, 2)->default(0);
+            
+            $table->index('issued_at');
+            $table->index('due_at');
+            $table->index('status');
+            $table->decimal('subtotal', 10, 2)->default(0);
+            $table->decimal('tax', 10, 2)->default(0);
+            $table->decimal('total', 10, 2)->default(0);
         });
     }
 

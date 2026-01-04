@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('status')->default(ExpenseStatus::Draft->value);
             $table->decimal('amount', 10, 2);
-            $table->dateTime('incurred_at');
+            $table->dateTime('incurred_at')->nullable();
         });
     }
 

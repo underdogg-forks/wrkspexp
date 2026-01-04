@@ -20,8 +20,8 @@ class ProjectFactory extends Factory
             'company_id' => $client->company_id,
             'client_id' => $client->id,
             'project_number' => 'PRJ-' . fake()->unique()->numberBetween(10000, 99999),
-            'name' => fake()->catchPhrase(),
             'status' => fake()->randomElement(ProjectStatus::cases())->value,
+            'name' => fake()->catchPhrase(),
             'started_at' => $startedAt,
             'ended_at' => fake()->optional()->dateTimeBetween($startedAt, '+1 year'),
         ];

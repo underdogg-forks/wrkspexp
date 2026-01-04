@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('notes_descriptions', function (Blueprint $table) {
+        Schema::create('notes', function (Blueprint $table) {
             $table->id();
             $table->morphs('notable');
             $table->string('type'); // 'note' or 'description'
@@ -22,6 +22,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('notes_descriptions');
+        Schema::dropIfExists('notes');
     }
 };

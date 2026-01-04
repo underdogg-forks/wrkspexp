@@ -14,18 +14,30 @@ class EditPayment extends EditRecord
     {
         return [
             Actions\DeleteAction::make()
-                ->after(function ($record) {
-                    // Update invoice status after deletion
-                    $service = app(\App\Services\PaymentService::class);
-                    $service->delete($record);
+                ->before(function ($record) {
+                    // Store invoice for later update
+                    $this->invoiceToUpdate = $record->invoice;
+                })
+                ->after(function () {
+                    // Update invoice status after deletion (record is already deleted by DeleteAction)
+                    if (isset($this->invoiceToUpdate)) {
+                        $service = app(\App\Services\PaymentService::class);
+                        $service->updateInvoiceStatus($this->invoiceToUpdate);
+                    }
                 }),
         ];
     }
 
+    protected $invoiceToUpdate;
+
     protected function mutateFormDataBeforeSave(array $data): array
     {
+        // Service layer handles the update
         $service = app(\App\Services\PaymentService::class);
         $service->update($this->record, $data);
+        
+        // Halt to prevent duplicate update by Filament
+        $this->halt();
         
         return $data;
     }

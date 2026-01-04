@@ -57,8 +57,12 @@ class EditExpense extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
+        // Service layer handles the update
         $service = app(\App\Services\ExpenseService::class);
         $service->update($this->record, $data);
+        
+        // Halt to prevent duplicate update by Filament
+        $this->halt();
         
         return $data;
     }

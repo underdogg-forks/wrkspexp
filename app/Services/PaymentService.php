@@ -155,12 +155,23 @@ class PaymentService
      * @param Invoice $invoice
      * @return void
      */
-    protected function updateInvoiceStatus(Invoice $invoice): void
+    public function updateInvoiceStatus(Invoice $invoice): void
     {
         if ($this->isFullyPaid($invoice)) {
             $invoiceService = app(InvoiceService::class);
             $invoiceService->markAsPaid($invoice);
         }
+    }
+
+    /**
+     * Update invoice status based on payments (protected version for internal use)
+     * 
+     * @param Invoice $invoice
+     * @return void
+     */
+    protected function updateInvoiceStatusInternal(Invoice $invoice): void
+    {
+        $this->updateInvoiceStatus($invoice);
     }
 
     /**

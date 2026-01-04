@@ -58,8 +58,12 @@ class EditQuote extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
+        // Service layer handles the update
         $service = app(\App\Services\QuoteService::class);
         $service->update($this->record, $data);
+        
+        // Halt to prevent duplicate update by Filament
+        $this->halt();
         
         return $data;
     }

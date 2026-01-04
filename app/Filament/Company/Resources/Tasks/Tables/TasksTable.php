@@ -51,14 +51,12 @@ class TasksTable
                     ->sortable()
                     ->toggleable(),
 
-                TextColumn::make('total_hours')
+                TextColumn::make('timesheets_sum_hours')
                     ->label(trans('tasks.total_hours'))
-                    ->getStateUsing(function ($record) {
-                        $service = app(\App\Services\TaskService::class);
-                        return number_format($service->calculateTotalHours($record), 2) . ' hrs';
-                    })
-                    ->sortable(false)
-                    ->toggleable(),
+                    ->suffix(' hrs')
+                    ->sortable()
+                    ->toggleable()
+                    ->default(0),
 
                 TextColumn::make('due_at')
                     ->label(trans('tasks.due_at'))

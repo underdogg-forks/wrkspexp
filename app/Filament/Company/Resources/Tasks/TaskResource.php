@@ -34,7 +34,8 @@ class TaskResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return TasksTable::configure($table);
+        return TasksTable::configure($table)
+            ->modifyQueryUsing(fn ($query) => $query->withSum('timesheets', 'hours'));
     }
 
     public static function getRelations(): array

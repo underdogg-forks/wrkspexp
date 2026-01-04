@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use Database\Factories\TimesheetFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Timesheet extends Model
 {
+    use HasFactory;
+
     public $timestamps = false;
 
     protected function casts(): array
@@ -27,5 +31,13 @@ class Timesheet extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory(): TimesheetFactory
+    {
+        return TimesheetFactory::new();
     }
 }

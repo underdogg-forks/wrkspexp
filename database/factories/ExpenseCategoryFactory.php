@@ -26,7 +26,7 @@ class ExpenseCategoryFactory extends Factory
         
         return [
             'name' => $name,
-            'code' => strtoupper(substr($name, 0, 3)) . fake()->numberBetween(100, 999),
+            'code' => strtoupper(substr($name, 0, 3)) . fake()->unique()->numberBetween(100, 999),
             'is_active' => true,
         ];
     }

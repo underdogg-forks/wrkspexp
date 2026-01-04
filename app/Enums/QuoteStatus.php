@@ -13,11 +13,11 @@ enum QuoteStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::Draft => 'Draft',
-            self::Sent => 'Sent',
-            self::Accepted => 'Accepted',
-            self::Declined => 'Declined',
-            self::Expired => 'Expired',
+            self::Draft => trans('enums.quote_status.draft'),
+            self::Sent => trans('enums.quote_status.sent'),
+            self::Accepted => trans('enums.quote_status.accepted'),
+            self::Declined => trans('enums.quote_status.declined'),
+            self::Expired => trans('enums.quote_status.expired'),
         };
     }
 }

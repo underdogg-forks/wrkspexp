@@ -20,4 +20,15 @@ enum InvoiceStatus: string
             self::Cancelled => 'Cancelled',
         };
     }
+
+    public function color(): string
+    {
+        return match ($this) {
+            self::Draft => 'secondary',
+            self::Sent => 'info',
+            self::Paid => 'success',
+            self::Overdue => 'danger',
+            self::Cancelled => 'warning',
+        };
+    }
 }

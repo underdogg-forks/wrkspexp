@@ -34,7 +34,13 @@ class ProjectForm
                             ->relationship('client', 'name')
                             ->searchable()
                             ->preload()
-                            ->required(),
+                            ->required()
+                            ->createOptionForm([
+                                TextInput::make('name')
+                                    ->label(trans('clients.name'))
+                                    ->required()
+                                    ->maxLength(255),
+                            ]),
 
                         Select::make('status')
                             ->label(trans('projects.status'))

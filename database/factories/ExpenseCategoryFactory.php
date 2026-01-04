@@ -30,4 +30,14 @@ class ExpenseCategoryFactory extends Factory
             'is_active' => true,
         ];
     }
+
+    /**
+     * Indicate that the expense category is inactive
+     */
+    public function inactive(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_active' => false,
+        ]);
+    }
 }

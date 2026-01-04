@@ -17,8 +17,11 @@ class InvoiceFactory extends Factory
         $tax = $subtotal * 0.21;
         $total = $subtotal + $tax;
 
+        $client = Client::factory()->create();
+
         return [
-            'client_id' => Client::factory(),
+            'client_id' => $client->id,
+            'company_id' => $client->company_id,
             'invoice_number' => 'INV-' . fake()->unique()->numberBetween(10000, 99999),
             'issued_at' => fake()->dateTimeBetween('-1 year', 'now'),
             'due_at' => fake()->dateTimeBetween('now', '+30 days'),

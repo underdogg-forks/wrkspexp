@@ -50,6 +50,36 @@ Apply SOLID principles throughout the codebase:
 - Use PHP enums for all type constants
 - Status fields must use enums (InvoiceStatus, ProjectStatus, TaskStatus, ExpenseStatus, etc.)
 - All enums must have a `label()` method for display purposes
+- All enums must have a `color()` method for badge coloring in Filament tables
+- Use the `color()` method in BadgeColumn: `->colors(fn (StatusEnum $state): string => $state->color())`
+
+Example enum structure:
+```php
+enum InvoiceStatus: string
+{
+    case Draft = 'draft';
+    case Sent = 'sent';
+    case Paid = 'paid';
+    
+    public function label(): string
+    {
+        return match ($this) {
+            self::Draft => 'Draft',
+            self::Sent => 'Sent',
+            self::Paid => 'Paid',
+        };
+    }
+    
+    public function color(): string
+    {
+        return match ($this) {
+            self::Draft => 'secondary',
+            self::Sent => 'info',
+            self::Paid => 'success',
+        };
+    }
+}
+```
 
 ## Filament V4 Resources
 
@@ -78,6 +108,31 @@ app/Filament/Company/Resources/{EntityName}/
 - Model observers handle lifecycle events (creating, created, updating, updated, etc.)
 - Keep observers focused on side effects (logging, notifications, event triggering)
 - Validate state transitions in observers
+- Use observers for auto-generating `*_number` fields (e.g., invoice_number, project_number)
+- Observers should handle number generation in the `creating` event before save
+
+Example observer usage for number generation:
+```php
+public function creating(Project $project): void
+{
+    if (empty($project->project_number)) {
+        $project->project_number = $this->generateProjectNumber();
+    }
+}
+```
+
+### Filament Form Fields
+- Use `createOptionForm()` on Select fields to allow inline creation of related records
+- Improves UX by avoiding navigation away from current form
+
+Example:
+```php
+Select::make('client_id')
+    ->relationship('client', 'name')
+    ->createOptionForm([
+        TextInput::make('name')->required(),
+    ]),
+```
 
 ## Testing Standards
 
@@ -228,3 +283,76 @@ lang/
 - Write descriptive commit messages
 - Follow conventional commits format
 - Review all changes before committing
+
+## Tenant Scoping
+
+### Company Context
+- All resources must be scoped to the current company (tenant)
+- Add `company_id` foreign key to main entity tables (invoices, projects, etc.)
+- Use global scopes for automatic tenant filtering
+- Always validate user has access to tenant before operations
+
+### Payment Model Example
+```php
+protected static function booted(): void
+{
+    static::addGlobalScope('company', function (Builder $builder) {
+        if (filament()->hasTenancy() && filament()->getTenant()) {
+            $builder->whereHas('invoice.client', function ($query) {
+                $query->where('company_id', filament()->getTenant()->id);
+            });
+        }
+    });
+}
+```
+
+### Return Type Hints
+- All methods should have explicit return type hints
+- Use `Collection`, `Model`, `void`, `bool`, `int`, `string`, etc.
+- Example: `public function getCompanies(): Collection`
+
+## Factory Best Practices
+
+### State Methods
+- Add state methods for common variations
+- Example: `inactive()`, `draft()`, `paid()`
+```php
+public function inactive(): static
+{
+    return $this->state(fn (array $attributes) => [
+        'is_active' => false,
+    ]);
+}
+```
+
+### Logical Dates
+- Generate dates in logical order (issued_at before expires_at)
+- Use relative date generation
+```php
+$issuedAt = fake()->dateTimeBetween('-6 months', 'now');
+$expiresAt = fake()->dateTimeBetween($issuedAt, '+60 days from ' . $issuedAt->format('Y-m-d'));
+```
+
+### Unique Fields
+- Generate unique values for `*_number` fields
+- Use consistent prefixes (INV-, PRJ-, C-, etc.)
+```php
+'invoice_number' => 'INV-' . fake()->unique()->numberBetween(10000, 99999),
+'client_number' => 'C-' . fake()->unique()->numberBetween(100000, 999999),
+```
+
+### Foreign Keys from Related Models
+- When a field depends on related model, create related first
+```php
+$client = Client::factory()->create();
+return [
+    'client_id' => $client->id,
+    'company_id' => $client->company_id, // Inherit from client
+];
+```
+
+## Payment Methods
+- Use PaymentMethod enum for type safety
+- Enum includes: Cash, BankTransfer, CreditCard, DebitCard, Check, PayPal, Stripe, Other
+- Each enum case has `label()` and `color()` methods
+

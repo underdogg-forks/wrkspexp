@@ -31,13 +31,7 @@ class InvoicesTable
                 BadgeColumn::make('status')
                     ->label(trans('invoices.status'))
                     ->enum(InvoiceStatus::class)
-                    ->colors([
-                        'secondary' => InvoiceStatus::Draft->value,
-                        'info' => InvoiceStatus::Sent->value,
-                        'success' => InvoiceStatus::Paid->value,
-                        'danger' => InvoiceStatus::Overdue->value,
-                        'warning' => InvoiceStatus::Cancelled->value,
-                    ]),
+                    ->colors(fn (InvoiceStatus $state): string => $state->color()),
 
                 TextColumn::make('total')
                     ->label(trans('invoices.total'))

@@ -42,8 +42,14 @@ class InvoiceService
                 $data['status'] = InvoiceStatus::Draft;
             }
 
+            // Set company_id from client if not provided
+            if (!isset($data['company_id']) && isset($data['client_id'])) {
+                $client = \App\Models\Client::find($data['client_id']);
+                $data['company_id'] = $client->company_id;
+            }
+
             // Create invoice
-            $invoice = $company->invoices()->create($data);
+            $invoice = Invoice::create($data);
 
             // Attach items if provided
             if (isset($data['items']) && is_array($data['items'])) {

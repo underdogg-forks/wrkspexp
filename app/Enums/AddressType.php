@@ -20,4 +20,15 @@ enum AddressType: string
             self::Other => 'Other',
         };
     }
+
+    public function color(): string
+    {
+        return match ($this) {
+            self::Billing => 'warning',
+            self::Shipping => 'info',
+            self::Office => 'primary',
+            self::Home => 'success',
+            self::Other => 'secondary',
+        };
+    }
 }

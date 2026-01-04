@@ -29,6 +29,11 @@ class Invoice extends Model
         return $this->belongsTo(Client::class);
     }
 
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
+
     public function items(): MorphMany
     {
         return $this->morphMany(Item::class, 'itemable');

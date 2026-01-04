@@ -16,6 +16,7 @@ class ClientFactory extends Factory
         return [
             'relation_id' => Relation::factory(),
             'company_id' => Company::factory(),
+            'client_number' => 'C-' . fake()->unique()->numberBetween(100000, 999999),
         ];
     }
 }

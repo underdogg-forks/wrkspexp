@@ -18,4 +18,14 @@ enum ProjectStatus: string
             self::Cancelled => 'Cancelled',
         };
     }
+
+    public function color(): string
+    {
+        return match ($this) {
+            self::Active => 'success',
+            self::OnHold => 'warning',
+            self::Completed => 'info',
+            self::Cancelled => 'danger',
+        };
+    }
 }

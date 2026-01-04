@@ -3,6 +3,7 @@
 namespace App\Filament\Workspace\Pages;
 
 use Filament\Pages\Page;
+use Illuminate\Support\Collection;
 
 class Workspace extends Page
 {
@@ -20,7 +21,7 @@ class Workspace extends Page
         return false;
     }
 
-    public function getCompanies()
+    public function getCompanies(): Collection
     {
         return auth()->user()->companies;
     }

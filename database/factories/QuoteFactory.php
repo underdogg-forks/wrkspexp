@@ -17,11 +17,15 @@ class QuoteFactory extends Factory
         $tax = $subtotal * 0.21;
         $total = $subtotal + $tax;
 
+        // Generate issued_at first, then expires_at relative to it
+        $issuedAt = fake()->dateTimeBetween('-6 months', 'now');
+        $expiresAt = fake()->dateTimeBetween($issuedAt, '+60 days from ' . $issuedAt->format('Y-m-d'));
+
         return [
             'client_id' => Client::factory(),
             'quote_number' => 'QUO-' . fake()->unique()->numberBetween(10000, 99999),
-            'issued_at' => fake()->dateTimeBetween('-6 months', 'now'),
-            'expires_at' => fake()->dateTimeBetween('now', '+60 days'),
+            'issued_at' => $issuedAt,
+            'expires_at' => $expiresAt,
             'status' => fake()->randomElement(QuoteStatus::cases())->value,
             'subtotal' => $subtotal,
             'tax' => $tax,

@@ -20,4 +20,15 @@ enum QuoteStatus: string
             self::Expired => trans('enums.quote_status.expired'),
         };
     }
+
+    public function color(): string
+    {
+        return match ($this) {
+            self::Draft => 'secondary',
+            self::Sent => 'info',
+            self::Accepted => 'success',
+            self::Declined => 'danger',
+            self::Expired => 'warning',
+        };
+    }
 }

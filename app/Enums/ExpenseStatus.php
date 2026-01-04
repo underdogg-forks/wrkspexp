@@ -20,4 +20,15 @@ enum ExpenseStatus: string
             self::Paid => 'Paid',
         };
     }
+
+    public function color(): string
+    {
+        return match ($this) {
+            self::Draft => 'secondary',
+            self::Pending => 'warning',
+            self::Approved => 'info',
+            self::Rejected => 'danger',
+            self::Paid => 'success',
+        };
+    }
 }

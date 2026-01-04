@@ -31,7 +31,11 @@ class ProjectForm
 
                         Select::make('client_id')
                             ->label(trans('projects.client'))
-                            ->relationship('client', 'name')
+                            ->relationship(
+                                'client',
+                                'name',
+                                fn ($query) => $query->where('company_id', auth()->user()->company_id),
+                            )
                             ->searchable()
                             ->preload()
                             ->required()

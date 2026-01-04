@@ -18,10 +18,10 @@ class ExpenseFactory extends Factory
             'vendor_id' => Relation::factory(),
             'expense_category_id' => ExpenseCategory::factory(),
             'expense_number' => 'EXP-' . fake()->unique()->numberBetween(10000, 99999),
-            'title' => fake()->sentence(),
-            'status' => fake()->randomElement(ExpenseStatus::cases())->value,
-            'amount' => fake()->randomFloat(2, 10, 5000),
             'incurred_at' => fake()->dateTimeBetween('-6 months', 'now'),
+            'status' => fake()->randomElement(ExpenseStatus::cases())->value,
+            'title' => fake()->sentence(),
+            'amount' => fake()->randomFloat(2, 10, 5000),
         ];
     }
 }

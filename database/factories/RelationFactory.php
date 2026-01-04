@@ -11,9 +11,11 @@ class RelationFactory extends Factory
 
     public function definition(): array
     {
+        $companyName = fake()->company();
+
         return [
-            'name' => fake()->company(),
-            'notes' => fake()->optional()->paragraph(),
+            'name' => $companyName
+            'slug' => Str::slug($companyName),
         ];
     }
 }

@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->morphs('itemable');
-            $table->string('description');
+            $table->foreignId('product_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('task_id')->nullable()->constrained()->nullOnDelete();
             $table->integer('quantity')->default(1);
             $table->decimal('unit_price', 10, 2);
             $table->decimal('total', 10, 2);
-            $table->foreignId('product_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('task_id')->nullable()->constrained()->nullOnDelete();
         });
     }
 

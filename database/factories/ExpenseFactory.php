@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\Client;
+use App\Enums\ExpenseStatus;
+use App\Models\ExpenseCategory;
 use App\Models\Expense;
+use App\Models\Relation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ExpenseFactory extends Factory
@@ -13,13 +15,13 @@ class ExpenseFactory extends Factory
     public function definition(): array
     {
         return [
-            'client_id' => Client::factory(),
+            'vendor_id' => Relation::factory(),
+            'expense_category_id' => ExpenseCategory::factory(),
+            'expense_number' => 'EXP-' . fake()->unique()->numberBetween(10000, 99999),
             'title' => fake()->sentence(),
-            'description' => fake()->optional()->paragraph(),
+            'status' => fake()->randomElement(ExpenseStatus::cases())->value,
             'amount' => fake()->randomFloat(2, 10, 5000),
             'incurred_at' => fake()->dateTimeBetween('-6 months', 'now'),
-            'category' => fake()->randomElement(['Travel', 'Office Supplies', 'Software', 'Hardware', 'Consulting', 'Marketing', 'Other']),
-            'notes' => fake()->optional()->paragraph(),
         ];
     }
 }

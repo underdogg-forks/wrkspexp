@@ -53,12 +53,47 @@ class User extends Authenticatable implements FilamentUser, HasTenants
 
     public function canAccessTenant($tenant): bool
     {
-        return $this->companies->contains($tenant);
+        // Early return for admin - can access any tenant
+        if ($this->hasRole('admin')) {
+            return true;
+        }
+
+        // Check if user belongs to this company
+        if (!$this->companies->contains($tenant)) {
+            return false;
+        }
+
+        // Manager and employee can access their companies
+        if ($this->hasAnyRole(['manager', 'employee'])) {
+            return true;
+        }
+
+        // Client role has limited access - check specific permissions
+        if ($this->hasRole('client')) {
+            return $this->companies->contains($tenant);
+        }
+
+        return false;
     }
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true; // Allow all authenticated users for now
+        // Early return for admin access
+        if ($this->hasRole('admin')) {
+            return true;
+        }
+
+        // Manager and employee can access admin and company panels
+        if ($panel->getId() === 'admin' || $panel->getId() === 'company') {
+            return $this->hasAnyRole(['admin', 'manager', 'employee']);
+        }
+
+        // Workspace panel accessible to all authenticated users
+        if ($panel->getId() === 'workspace') {
+            return true;
+        }
+
+        return false;
     }
 }
 

@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\TaskStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Task extends Model
@@ -14,6 +17,7 @@ class Task extends Model
     {
         return [
             'due_at' => 'datetime',
+            'status' => TaskStatus::class,
         ];
     }
 
@@ -22,13 +26,23 @@ class Task extends Model
         return $this->belongsTo(Client::class);
     }
 
+    public function items(): MorphToMany
+    {
+        return $this->morphToMany(Item::class, 'itemable');
+    }
+
+    public function notesDescriptions(): MorphMany
+    {
+        return $this->morphMany(NoteDescription::class, 'notable');
+    }
+
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
     }
 
-    public function items(): MorphToMany
+    public function timesheets(): HasMany
     {
-        return $this->morphToMany(Item::class, 'itemable');
+        return $this->hasMany(Timesheet::class);
     }
 }

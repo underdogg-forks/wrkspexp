@@ -12,10 +12,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('invoice_id')->constrained()->cascadeOnDelete();
             $table->string('payment_number')->unique();
-            $table->decimal('amount', 10, 2);
-            $table->dateTime('paid_at');
             $table->string('payment_method')->nullable();
             $table->string('reference')->nullable();
+            $table->dateTime('paid_at');
+            $table->decimal('amount', 10, 2);
         });
     }
 

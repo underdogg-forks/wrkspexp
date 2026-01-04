@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('relations', function (Blueprint $table) {
             $table->id();
+            $table->string('relation_number')->unique();
             $table->string('name');
-            $table->text('notes')->nullable();
         });
     }
 

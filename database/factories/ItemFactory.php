@@ -17,12 +17,11 @@ class ItemFactory extends Factory
         $unitPrice = fake()->randomFloat(2, 10, 500);
         
         return [
-            'description' => fake()->sentence(),
+            'product_id' => fake()->optional()->randomElement([null, Product::factory()]),
+            'task_id' => fake()->optional()->randomElement([null, Task::factory()]),
             'quantity' => $quantity,
             'unit_price' => $unitPrice,
             'total' => $quantity * $unitPrice,
-            'product_id' => fake()->optional()->randomElement([null, Product::factory()]),
-            'task_id' => fake()->optional()->randomElement([null, Task::factory()]),
         ];
     }
 }

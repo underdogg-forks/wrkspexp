@@ -14,17 +14,17 @@ class Address extends Model
         return $this->morphTo();
     }
 
-    public function getFullAddressAttribute(): string
+    protected function fullAddress(): Attribute
     {
-        $parts = array_filter([
-            $this->address_line_1,
-            $this->address_line_2,
-            $this->city,
-            $this->state,
-            $this->postal_code ?? $this->zip_code,
-            $this->country,
-        ]);
-
-        return implode(', ', $parts);
+        return Attribute::make(
+            get: fn() => implode(', ', array_filter([
+                $this->address_line_1,
+                $this->address_line_2,
+                $this->city,
+                $this->state,
+                $this->postal_code ?? $this->zip_code,
+                $this->country,
+            ]))
+        );
     }
 }

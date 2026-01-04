@@ -2,10 +2,12 @@
 
 namespace App\Providers\Filament;
 
+use App\Http\Responses\CustomLoginResponse;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -25,6 +27,7 @@ class WorkspacePanelProvider extends PanelProvider
             ->id('workspace')
             ->path('workspace')
             ->login()
+            ->loginRouteSlug('login')
             ->colors([
                 'primary' => Color::Blue,
             ])
@@ -46,5 +49,13 @@ class WorkspacePanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+
+    public function register(): void
+    {
+        parent::register();
+
+        // Register custom login response for role-based redirects
+        $this->app->singleton(LoginResponse::class, CustomLoginResponse::class);
     }
 }

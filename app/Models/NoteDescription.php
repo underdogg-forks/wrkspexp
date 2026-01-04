@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class NoteDescription extends Model
+class Note extends Model
 {
     public $timestamps = true;
 

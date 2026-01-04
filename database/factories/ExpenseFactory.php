@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\ExpenseStatus;
+use App\Models\Client;
 use App\Models\ExpenseCategory;
 use App\Models\Expense;
 use App\Models\Relation;
@@ -14,7 +15,10 @@ class ExpenseFactory extends Factory
 
     public function definition(): array
     {
+        $client = Client::factory()->create();
+        
         return [
+            'company_id' => $client->company_id,
             'vendor_id' => Relation::factory(),
             'expense_category_id' => ExpenseCategory::factory(),
             'expense_number' => 'EXP-' . fake()->unique()->numberBetween(10000, 99999),

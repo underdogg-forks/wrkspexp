@@ -14,9 +14,11 @@ class ProjectFactory extends Factory
     public function definition(): array
     {
         $startedAt = fake()->dateTimeBetween('-1 year', 'now');
+        $client = Client::factory()->create();
         
         return [
-            'client_id' => Client::factory(),
+            'company_id' => $client->company_id,
+            'client_id' => $client->id,
             'project_number' => 'PRJ-' . fake()->unique()->numberBetween(10000, 99999),
             'name' => fake()->catchPhrase(),
             'status' => fake()->randomElement(ProjectStatus::cases())->value,

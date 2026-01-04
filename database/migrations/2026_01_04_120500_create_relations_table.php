@@ -12,9 +12,9 @@ return new class extends Migration
             $table->id();
             $table->string('relation_number')->unique();
             $table->string('name');
-            $table->string('slug');
-            $table->string('tax_id');
-            $table->string('tax_number');
+            $table->string('slug')->index();
+            $table->string('tax_id')->nullable();
+            $table->string('tax_number')->nullable();
         });
     }
 

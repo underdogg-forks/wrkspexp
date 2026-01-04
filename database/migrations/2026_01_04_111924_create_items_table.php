@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('task_id')->nullable()->constrained()->nullOnDelete();
             $table->integer('quantity')->default(1);
             $table->decimal('unit_price', 10, 2);
-            $table->decimal('total', 10, 2);
+            $table->decimal('total', 10, 2)->storedAs('quantity * unit_price');
         });
     }
 

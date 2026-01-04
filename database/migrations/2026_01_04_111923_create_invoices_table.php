@@ -11,9 +11,9 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->foreignId('company_id')->constrained()->cascadeOnDelete();
-            $table->string('invoice_number')->unique();
+            $table->foreignId('client_id')->constrained()->cascadeOnDelete();
+            $table->string('invoice_number');
             $table->dateTime('issued_at');
             $table->dateTime('due_at')->nullable();
             $table->string('status')->default(InvoiceStatus::Draft->value);
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('tax', 10, 2)->default(0);
             $table->decimal('total', 10, 2)->default(0);
             
+            $table->unique(['company_id', 'invoice_number']);
             $table->index('company_id');
             $table->index('issued_at');
             $table->index('due_at');

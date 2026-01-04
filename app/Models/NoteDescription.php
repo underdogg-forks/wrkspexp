@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class NoteDescription extends Model
 {
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected function casts(): array
     {

@@ -21,7 +21,6 @@ class ItemFactory extends Factory
             'task_id' => fake()->optional()->randomElement([null, Task::factory()]),
             'quantity' => $quantity,
             'unit_price' => $unitPrice,
-            'total' => $quantity * $unitPrice,
         ];
     }
 }

@@ -17,9 +17,9 @@
                         </x-filament::button>
                     </x-slot>
 
-                    @if($company->communicatables()->where('type', 'email')->where('is_primary', true)->exists())
+                    @if($company->communicatables->isNotEmpty())
                         <x-filament::badge class="mb-2">
-                            {{ $company->communicatables()->where('type', 'email')->where('is_primary', true)->first()->value }}
+                            {{ $company->communicatables->first()->value }}
                         </x-filament::badge>
                     @endif
                 </x-filament::section>

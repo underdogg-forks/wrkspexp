@@ -15,6 +15,7 @@ class CompanyFactory extends Factory
         $name = fake()->company();
         
         return [
+            'company_number' => 'COM-' . fake()->unique()->numberBetween(10000, 99999),
             'name' => $name,
             'slug' => Str::slug($name) . '-' . fake()->unique()->numberBetween(1, 9999),
             'description' => fake()->optional()->sentence(),

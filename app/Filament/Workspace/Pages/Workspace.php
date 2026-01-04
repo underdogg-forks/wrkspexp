@@ -23,6 +23,10 @@ class Workspace extends Page
 
     public function getCompanies(): Collection
     {
-        return auth()->user()->companies;
+        return auth()->user()->companies()
+            ->with(['communicatables' => function ($query) {
+                $query->where('type', 'email')->where('is_primary', true);
+            }])
+            ->get();
     }
 }

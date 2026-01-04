@@ -16,7 +16,6 @@ class ProductFactory extends Factory
         return [
             'company_id' => Company::factory(),
             'name' => fake()->words(3, true),
-            'description' => fake()->optional()->paragraph(),
             'type' => fake()->randomElement(ProductType::cases())->value,
             'price' => fake()->randomFloat(2, 10, 1000),
             'sku' => fake()->optional()->bothify('SKU-####-????'),

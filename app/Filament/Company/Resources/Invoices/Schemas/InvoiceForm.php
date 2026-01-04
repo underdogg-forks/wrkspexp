@@ -29,7 +29,11 @@ class InvoiceForm
 
                         Select::make('client_id')
                             ->label(trans('invoices.client'))
-                            ->relationship('client', 'name')
+                            ->relationship(
+                                name: 'client',
+                                titleAttribute: 'name',
+                                modifyQueryUsing: fn ($query) => $query->where('company_id', auth()->user()->company_id),
+                            )
                             ->searchable()
                             ->preload()
                             ->required(),

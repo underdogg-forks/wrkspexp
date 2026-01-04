@@ -13,7 +13,7 @@ class ProjectFactory extends Factory
 
     public function definition(): array
     {
-        $startedAt = fake()->dateTimeBetween('-1 year', 'now');
+        $startedAt = fake()->dateTimeBetween('-3 year', '+1 year');
         $client = Client::factory()->create();
         
         return [
@@ -23,7 +23,7 @@ class ProjectFactory extends Factory
             'status' => fake()->randomElement(ProjectStatus::cases())->value,
             'name' => fake()->catchPhrase(),
             'started_at' => $startedAt,
-            'ended_at' => fake()->optional()->dateTimeBetween($startedAt, '+1 year'),
+            'ended_at' => fake()->optional()->dateTimeBetween($startedAt, '+3 year'),
         ];
     }
 }

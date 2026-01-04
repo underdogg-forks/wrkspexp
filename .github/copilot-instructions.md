@@ -48,6 +48,99 @@
 
 ### Migrations
 - Never use `timestamps()` - we handle timestamps manually
+- All models set `public $timestamps = false`
+- Date fields use `*_at` suffix (issued_at, expires_at, started_at, ended_at, due_at, incurred_at)
+- Boolean fields use `is_*` prefix (is_primary, is_active, is_billable)
+- All major resources have `*_number` fields for tracking (invoice_number, project_number, task_number, etc.)
+- Status fields use enum defaults: `Enum::case->value`
+
+## Current Implementation Status
+
+### ✅ Completed Resources (with Full Stack)
+
+#### Invoice Resource
+- [x] Database: invoice_number, status enum, payments relationship
+- [x] Model: InvoiceStatus enum cast, all relationships
+- [x] Service: InvoiceService with CRUD + markAsSent, markAsPaid, duplicate, calculateTotals
+- [x] Observer: InvoiceObserver for lifecycle management
+- [x] Filament: Full resource with separate Schema/Tables classes, modals
+- [x] Tests: 12 comprehensive tests with it_* naming and AAA pattern
+- [x] Translations: lang/en/invoices.php with all labels
+
+#### Project Resource
+- [x] Database: project_number, status enum, tasks relationship
+- [x] Model: ProjectStatus enum cast, all relationships
+- [x] Service: ProjectService with CRUD + markAsCompleted, putOnHold, cancel, duplicate, calculateCompletionPercentage
+- [x] Observer: ProjectObserver for lifecycle management
+- [x] Filament: Full resource with separate Schema/Tables classes, modals
+- [x] Tests: 14 comprehensive tests with it_* naming and AAA pattern
+- [x] Translations: lang/en/projects.php with all labels
+
+### 🔄 Partially Completed Resources
+
+#### Task Resource
+- [x] Database: task_number, status enum, timesheets relationship
+- [x] Model: TaskStatus enum cast, timesheets() relationship
+- [x] Factories: Updated to use enums
+- [ ] Service: TaskService needed
+- [ ] Observer: TaskObserver needed
+- [ ] Filament: Resource needed
+- [ ] Tests: Comprehensive tests needed
+
+#### Expense Resource
+- [x] Database: expense_number, status enum, vendor_id, expense_category_id
+- [x] Model: ExpenseStatus enum cast, vendor(), expenseCategory() relationships
+- [x] Factories: Updated to use enums and foreign keys
+- [ ] Service: ExpenseService needed
+- [ ] Observer: ExpenseObserver needed
+- [ ] Filament: Resource needed
+- [ ] Tests: Comprehensive tests needed
+
+#### Quote Resource
+- [x] Database: quote_number, status enum, prospect_id
+- [x] Model: QuoteStatus enum cast, prospect() relationship
+- [x] Factories: Updated to use enums
+- [ ] Service: QuoteService needed
+- [ ] Observer: QuoteObserver needed
+- [ ] Filament: Resource needed
+- [ ] Tests: Comprehensive tests needed
+
+### 📋 Pending Resources
+
+#### Company Resource
+- [x] Database: company_number, communicatables, addresses
+- [x] Model: All relationships defined
+- [ ] Service: CompanyService needed
+- [ ] Observer: CompanyObserver needed
+- [ ] Filament: Resource needed (already has workspace selection UI)
+- [ ] Tests: Comprehensive tests needed
+
+#### Relation Resource
+- [x] Database: relation_number, RelationType enum (Client, Supplier, Partner, Contractor, Vendor, Prospect)
+- [x] Model: All relationships, communicatables, addresses
+- [ ] Service: RelationService needed
+- [ ] Observer: RelationObserver needed
+- [ ] Filament: Resource needed
+- [ ] Tests: Comprehensive tests needed
+
+#### Client Resource (Pivot)
+- [x] Database: client_number, company-relation pivot
+- [x] Model: All relationships
+- [ ] Service: ClientService needed
+- [ ] Filament: Resource needed
+- [ ] Tests: Comprehensive tests needed
+
+## VAT System Preparation
+
+Preparing for VAT systems from:
+- UAE, Portugal, Brazil, Spain, Italy, France, Germany, Belgium, Netherlands, USA
+
+Structure needed:
+- [ ] VatRate model/table with country-specific rates
+- [ ] VatRuleEnum for different VAT calculation rules
+- [ ] Service class for VAT calculations per country
+- [ ] Migration: vat_rates table with country, rate, effective_from, effective_to
+- [ ] Tests for multi-country VAT calculations
 - Never use `fillable` arrays - use `Model::unguard()`
 - Use descriptive field names with `_at` suffix for datetime fields
 - Use foreign keys with proper cascade rules

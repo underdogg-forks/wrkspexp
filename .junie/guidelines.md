@@ -48,6 +48,104 @@ Apply SOLID principles throughout the codebase:
 
 ### Enums
 - Use PHP enums for all type constants
+- Status fields must use enums (InvoiceStatus, ProjectStatus, TaskStatus, ExpenseStatus, etc.)
+- All enums must have a `label()` method for display purposes
+
+## Filament V4 Resources
+
+### Structure
+Each Filament resource must follow this structure:
+```
+app/Filament/Company/Resources/{EntityName}/
+├── {EntityName}Resource.php          # Main resource class
+├── Pages/
+│   ├── List{EntityName}.php         # List page with table
+│   ├── Create{EntityName}.php       # Create page (modal or full page)
+│   └── Edit{EntityName}.php         # Edit page (modal or full page)
+├── Schemas/
+│   └── {EntityName}Form.php         # Form schema configuration
+└── Tables/
+    └── {EntityName}Table.php        # Table configuration
+```
+
+### Service Classes
+- All business logic must reside in service classes under `app/Services/`
+- Service classes handle: create, update, status changes, duplication, calculations
+- Use early returns for validation
+- Wrap operations in DB transactions where appropriate
+
+### Observers
+- Model observers handle lifecycle events (creating, created, updating, updated, etc.)
+- Keep observers focused on side effects (logging, notifications, event triggering)
+- Validate state transitions in observers
+
+## Testing Standards
+
+### PHPUnit Tests
+- All test methods start with `it_` prefix
+- Use descriptive names that read as plain English sentences
+- Follow AAA (Arrange, Act, Assert) pattern
+- Add PHPDoc comments above each test scenario section:
+  ```php
+  /**
+   * @test
+   * Arrange: Context and preconditions
+   * Act: Action being tested
+   * Assert: Expected outcome
+   */
+  ```
+
+## Resource Implementation Checklist
+
+Per resource, ensure the following are completed:
+
+### Database Layer
+- [ ] Migration with `*_number` field
+- [ ] Status enum with default value
+- [ ] No `notes` or `description` fields (use polymorphic notes_descriptions)
+- [ ] All date fields use `*_at` naming
+- [ ] Boolean fields use `is_*` naming
+
+### Model Layer
+- [ ] Model with relationships (alphabetized)
+- [ ] Enum casts for status fields
+- [ ] `public $timestamps = false`
+- [ ] No `$fillable` or `$guarded`
+- [ ] Relationships to notes_descriptions, addresses, communicatables
+
+### Service Layer
+- [ ] Service class created
+- [ ] CRUD methods (create, update)
+- [ ] Business logic methods (markAs*, calculate*, duplicate)
+- [ ] Early returns for validation
+- [ ] DB transactions for multi-step operations
+
+### Observer Layer
+- [ ] Observer created
+- [ ] Lifecycle event handlers
+- [ ] Status transition validation
+- [ ] Side effect handling (notifications, logging)
+
+### Filament Layer
+- [ ] Resource class with navigation config
+- [ ] Form schema with trans() for all labels
+- [ ] Table configuration with filters, actions
+- [ ] List/Create/Edit pages
+- [ ] Modal configuration (`modalWidth`, `modalHeading`)
+- [ ] Integration with service class
+
+### Testing Layer
+- [ ] Service tests with `it_*` naming
+- [ ] AAA pattern with PHPDoc comments
+- [ ] Tests for: create, update, status changes, duplication, calculations
+- [ ] Edge case tests (already in status, early returns, validations)
+- [ ] Factory for test data generation
+
+### Translation Layer
+- [ ] Translation file (e.g., `lang/en/{resource}.php`)
+- [ ] All UI text uses trans() function
+- [ ] Singular/plural labels
+- [ ] Field labels, actions, statuses
 - **Never** use database enum columns
 - **Never** use JSON columns
 - Store enum values as strings in VARCHAR fields

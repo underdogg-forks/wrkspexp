@@ -6,11 +6,9 @@ use Filament\Pages\Page;
 
 class Workspace extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
-
-    protected static string $view = 'filament.workspace.pages.workspace';
-
     protected static ?string $title = 'Select Company';
+
+    protected string $view = 'filament.workspace.pages.workspace';
 
     public static function shouldRegisterNavigation(): bool
     {

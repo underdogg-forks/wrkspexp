@@ -24,9 +24,8 @@ class CompanyPanelProvider extends PanelProvider
     {
         return $panel
             ->id('company')
-            ->path('company/{tenant}')
+            ->path('company')
             ->tenant(Company::class, slugAttribute: 'slug')
-            ->tenantRoutePrefix('')
             ->colors([
                 'primary' => Color::Cyan,
             ])

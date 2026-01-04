@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'singular' => 'Invoice',
+    'plural' => 'Invoices',
+    'create_invoice' => 'Create Invoice',
+    'invoice_details' => 'Invoice Details',
+    'invoice_number' => 'Invoice Number',
+    'client' => 'Client',
+    'status' => 'Status',
+    'issued_at' => 'Issued At',
+    'due_at' => 'Due At',
+    'tax_rate' => 'Tax Rate',
+    'subtotal' => 'Subtotal',
+    'total' => 'Total',
+    'items' => 'Items',
+    'line_items' => 'Line Items',
+    'description' => 'Description',
+    'quantity' => 'Quantity',
+    'unit_price' => 'Unit Price',
+    'line_total' => 'Line Total',
+    'add_item' => 'Add Item',
+    'duplicate' => 'Duplicate',
+    'mark_as_sent' => 'Mark as Sent',
+    'mark_as_paid' => 'Mark as Paid',
+];

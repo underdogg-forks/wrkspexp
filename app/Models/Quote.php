@@ -13,8 +13,8 @@ class Quote extends Model
     protected function casts(): array
     {
         return [
-            'issue_date' => 'date',
-            'valid_until' => 'date',
+            'issued_at' => 'datetime',
+            'expires_at' => 'datetime',
             'subtotal' => 'decimal:2',
             'tax' => 'decimal:2',
             'total' => 'decimal:2',

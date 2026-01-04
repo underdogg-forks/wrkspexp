@@ -10,6 +10,13 @@ class Task extends Model
 {
     public $timestamps = false;
 
+    protected function casts(): array
+    {
+        return [
+            'due_at' => 'datetime',
+        ];
+    }
+
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);

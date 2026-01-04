@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('status')->default('pending');
             $table->integer('estimated_hours')->nullable();
-            $table->date('due_date')->nullable();
+            $table->dateTime('due_at')->nullable();
         });
     }
 

@@ -13,7 +13,7 @@ class Expense extends Model
     protected function casts(): array
     {
         return [
-            'expense_date' => 'date',
+            'incurred_at' => 'datetime',
             'amount' => 'decimal:2',
         ];
     }

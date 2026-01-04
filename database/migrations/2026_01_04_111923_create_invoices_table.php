@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->string('invoice_number')->unique();
-            $table->date('issue_date');
-            $table->date('due_date')->nullable();
+            $table->dateTime('issued_at');
+            $table->dateTime('due_at')->nullable();
             $table->string('status')->default('draft');
             $table->decimal('subtotal', 10, 2)->default(0);
             $table->decimal('tax', 10, 2)->default(0);

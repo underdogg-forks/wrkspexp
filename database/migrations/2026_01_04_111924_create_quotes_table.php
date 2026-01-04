@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->string('quote_number')->unique();
-            $table->date('issue_date');
-            $table->date('valid_until')->nullable();
+            $table->dateTime('issued_at');
+            $table->dateTime('expires_at')->nullable();
             $table->string('status')->default('draft');
             $table->decimal('subtotal', 10, 2)->default(0);
             $table->decimal('tax', 10, 2)->default(0);

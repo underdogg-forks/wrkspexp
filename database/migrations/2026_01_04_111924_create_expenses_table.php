@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->decimal('amount', 10, 2);
-            $table->date('expense_date');
+            $table->dateTime('incurred_at');
             $table->string('category')->nullable();
             $table->text('notes')->nullable();
         });

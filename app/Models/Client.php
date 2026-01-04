@@ -10,6 +10,11 @@ class Client extends Model
 {
     public $timestamps = false;
 
+    public function relation(): BelongsTo
+    {
+        return $this->belongsTo(Relation::class);
+    }
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);

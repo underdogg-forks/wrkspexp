@@ -6,25 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('company_relation', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('relation_id')->constrained('relations')->cascadeOnDelete();
             $table->foreignId('company_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('relation_id')->constrained('relations')->cascadeOnDelete();
+            $table->string('relation_type');
             
-            $table->unique(['relation_id', 'company_id']);
+            $table->unique(['company_id', 'relation_id', 'relation_type'], 'company_relation_unique');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('company_relation');
     }
 };

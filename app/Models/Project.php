@@ -31,9 +31,9 @@ class Project extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function notesDescriptions(): MorphMany
+    public function notes(): MorphMany
     {
-        return $this->morphMany(NoteDescription::class, 'notable');
+        return $this->morphMany(Note::class, 'notable');
     }
 
     public function tasks(): HasMany

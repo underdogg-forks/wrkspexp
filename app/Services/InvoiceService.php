@@ -32,6 +32,15 @@ class InvoiceService
                 throw new \InvalidArgumentException('Company is required');
             }
 
+            // Validate tenant scoping: ensure client belongs to the company
+            if (isset($data['client_id'])) {
+                $client = \App\Models\Client::find($data['client_id']);
+                if (!$client || $client->company_id !== $company->id) {
+                    throw new \InvalidArgumentException('Client does not belong to the specified company');
+                }
+                $data['company_id'] = $client->company_id;
+            }
+
             // Generate invoice number if not provided
             if (!isset($data['invoice_number'])) {
                 $data['invoice_number'] = $this->generateInvoiceNumber($company);
@@ -40,12 +49,6 @@ class InvoiceService
             // Set default status if not provided
             if (!isset($data['status'])) {
                 $data['status'] = InvoiceStatus::Draft;
-            }
-
-            // Set company_id from client if not provided
-            if (!isset($data['company_id']) && isset($data['client_id'])) {
-                $client = \App\Models\Client::find($data['client_id']);
-                $data['company_id'] = $client->company_id;
             }
 
             // Create invoice

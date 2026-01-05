@@ -3,10 +3,10 @@
 namespace App\Filament\Company\Resources\Expenses\Tables;
 
 use App\Enums\ExpenseStatus;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\Action;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -48,7 +48,7 @@ class ExpensesTable
                 BadgeColumn::make('status')
                     ->label(trans('expenses.status'))
                     ->enum(ExpenseStatus::class)
-                    ->colors(fn (ExpenseStatus $state): string => $state->color()),
+                    ->color(fn (ExpenseStatus $state): string => $state->color()),
 
                 TextColumn::make('incurred_at')
                     ->label(trans('expenses.incurred_at'))
